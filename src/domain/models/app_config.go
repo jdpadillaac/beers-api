@@ -1,5 +1,8 @@
 package models
 
 type AppConfig struct {
-	AppPort string
+	Port           string
+	MongoCnnString string
+	Name           string
+	MongoDbName    string
 }

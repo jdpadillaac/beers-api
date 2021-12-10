@@ -1,15 +1,24 @@
 package main
 
 import (
-	"go_beers/src/domain/models"
-	"go_beers/src/infraestrucure/rest"
+	"github.com/jdpadillaac/beers-api/src/domain/models"
+	mdb "github.com/jdpadillaac/beers-api/src/infraestrucure/mongodb"
+	"github.com/jdpadillaac/beers-api/src/infraestrucure/rest"
+	"github.com/joho/godotenv"
 	"log"
 	"os"
 )
 
-func main()  {
+func main() {
 	setLogFile()
-	appConfig := models.AppConfig{AppPort: "6940"}
+	envLoad()
+	appConfig := models.AppConfig{
+		Port:           "6940",
+		MongoCnnString: os.Getenv("MONGO_CNN"),
+		Name:           "BEERAPP",
+		MongoDbName:    "beers-bd",
+	}
+	mdb.Init(&appConfig)
 	rest.Init(&appConfig)
 }
 
@@ -19,4 +28,11 @@ func setLogFile() {
 		log.Fatal(err)
 	}
 	log.SetOutput(file)
+}
+
+func envLoad() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal(err)
+	}
 }

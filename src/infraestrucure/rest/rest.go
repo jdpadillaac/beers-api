@@ -1,16 +1,16 @@
 package rest
 
 import (
+	"github.com/jdpadillaac/beers-api/src/domain/models"
+	"github.com/jdpadillaac/beers-api/src/infraestrucure/rest/handlers"
 	"github.com/labstack/echo/v4"
-	"go_beers/src/domain/models"
-	"go_beers/src/infraestrucure/rest/handlers"
 	"log"
 )
 
-func Init(c *models.AppConfig)  {
+func Init(c *models.AppConfig) {
 	e := echo.New()
 
 	handlers.ListenAnServe(e)
-	log.Println("BEERSAPI: aplicacion lista y ejecuntandose en puerto", c.AppPort)
-	e.Logger.Fatal(e.Start(":" + c.AppPort))
+	log.Println(c.Name+": aplicacion lista y ejecuntandose en puerto", c.Port)
+	e.Logger.Fatal(e.Start(":" + c.Port))
 }

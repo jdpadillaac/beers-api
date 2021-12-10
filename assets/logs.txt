@@ -1,2 +1,2 @@
-2021/12/09 17:25:29 BEERSAPI: aplicacion lista y ejecuntandose en puerto 6940
-2021/12/09 17:28:30 BEERSAPI: aplicacion lista y ejecuntandose en puerto 6940
+2021/12/09 17:54:20 BEERAPP: Base de datos mongo db conectada y lista para usarse
+2021/12/09 17:54:20 BEERAPP: aplicacion lista y ejecuntandose en puerto 6940
