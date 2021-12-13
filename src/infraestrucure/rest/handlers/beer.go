@@ -20,4 +20,6 @@ func (c handlersConfig) beer() {
 
 	g.GET("/:ID", ctr.GetByID)
 
+	g.GET("/:beerID/boxprice", ctr.GetBoxPrice)
+
 }

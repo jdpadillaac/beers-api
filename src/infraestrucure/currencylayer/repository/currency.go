@@ -10,6 +10,7 @@ import (
 	"github.com/pkg/errors"
 	"io"
 	"net/http"
+	"strings"
 )
 
 type clCurrencyRepo struct {
@@ -20,6 +21,43 @@ func NewClCurrencyRepo() repository.Currency {
 	return &clCurrencyRepo{
 		config: crlayer.NewConfigFromEnv(),
 	}
+}
+
+func (c clCurrencyRepo) GetUsdValue(code string) (entity.CurrencyUsdValue, error) {
+	var respModel crlayermodels.CurrencyValue
+	var model entity.CurrencyUsdValue
+
+	url := c.config.Url + "live?access_key=" + c.config.ApiKey + "&currencies=" + code
+
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return model, err
+	}
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return model, err
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return model, err
+	}
+
+	err = json.Unmarshal(body, &respModel)
+	if err != nil {
+		return model, err
+	}
+
+	for key, element := range respModel.Quotes {
+		codeSplit := strings.Split(key, "USD")
+		model = entity.CurrencyUsdValue{
+			Code:  codeSplit[1],
+			Value: element,
+		}
+	}
+
+	return model, nil
 }
 
 func (c clCurrencyRepo) GetSupported() ([]entity.CurrencyAvailable, error) {

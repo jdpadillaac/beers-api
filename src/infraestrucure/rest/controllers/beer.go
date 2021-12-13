@@ -6,6 +6,7 @@ import (
 	"github.com/jdpadillaac/beers-api/src/app/usecase"
 	"github.com/labstack/echo/v4"
 	"net/http"
+	"strconv"
 )
 
 type beerCtr struct {
@@ -15,6 +16,38 @@ type beerCtr struct {
 
 func NewBeerCtr(useCase *usecase.Beer) *beerCtr {
 	return &beerCtr{val: validator.New(), useCase: useCase}
+}
+
+func (b beerCtr) GetBoxPrice(c echo.Context) error {
+	finalQuantity := 0
+
+	currency := c.QueryParam("currency")
+	quantity := c.QueryParam("quantity")
+	ID := c.Param("beerID")
+
+	if len(quantity) > 0 {
+		intValue, err := strconv.ParseInt(quantity, 10, 64)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, newResponse(
+				false,
+				"El número no es un entero válido "+err.Error(),
+				nil,
+			))
+		}
+		finalQuantity = int(intValue)
+	}
+	model := dto.RqCalculateBoxPrice{
+		BeerID:       ID,
+		Quantity:     finalQuantity,
+		CurrencyCode: currency,
+	}
+
+	result, err := b.useCase.BoxPrice(model)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, newResponse(false, err.Error(), nil))
+	}
+
+	return c.JSON(http.StatusOK, newResponse(true, requestSuccessMsg, result))
 }
 
 func (b beerCtr) GetByID(c echo.Context) error {

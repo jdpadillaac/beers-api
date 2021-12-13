@@ -18,6 +18,47 @@ func NewBeer(repository repository.BeerRepository, currencyRepo repository.Curre
 	return &Beer{repository: repository, currencyRepo: currencyRepo}
 }
 
+func (b Beer) BoxPrice(model dto.RqCalculateBoxPrice) (dto.RsCalculatedBoxPrice, error) {
+	var respModel dto.RsCalculatedBoxPrice
+	var beerQuantity int
+	var beerCurrency string
+
+	if model.Quantity == 0 {
+		beerQuantity = 6
+	} else {
+		beerQuantity = model.Quantity
+	}
+
+	if len(model.CurrencyCode) == 0 {
+		beerCurrency = "USD"
+	} else {
+		beerCurrency = model.CurrencyCode
+	}
+
+	beer, err := b.repository.FindByID(model.BeerID)
+	if err != nil {
+		return respModel, errors.Wrap(err, "Error en validación en la base de datos")
+	}
+
+	recordCurrency, err := b.currencyRepo.GetUsdValue(strings.ToUpper(beerCurrency))
+	if err != nil {
+		return respModel, errors.Wrap(err, "Error en validación de moneda")
+	}
+
+	beerCurrencyValue, err := b.currencyRepo.GetUsdValue(strings.ToUpper(beer.Currency))
+	if err != nil {
+		return respModel, errors.Wrap(err, "Error en validación de moneda")
+	}
+
+	totalQuantity := beer.Price * float32(beerQuantity)
+	requiredQuantity := totalQuantity / beerCurrencyValue.Value
+	requestValue := requiredQuantity * recordCurrency.Value
+
+	respModel = dto.RsCalculatedBoxPrice{TotalPrice: requestValue}
+
+	return respModel, nil
+}
+
 func (b Beer) Save(model dto.RqBeerRegister) error {
 	crr, err := b.currencyRepo.ValidateCurrency(strings.ToUpper(model.Currency))
 	if err != nil {
