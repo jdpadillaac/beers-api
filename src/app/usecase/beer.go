@@ -40,19 +40,19 @@ func (b Beer) BoxPrice(model dto.RqCalculateBoxPrice) (dto.RsCalculatedBoxPrice,
 		return respModel, errors.Wrap(err, "Error en validación en la base de datos")
 	}
 
-	recordCurrency, err := b.currencyRepo.GetUsdValue(strings.ToUpper(beerCurrency))
+	requestCurrency, err := b.currencyRepo.GetUsdValue(strings.ToUpper(beerCurrency))
 	if err != nil {
 		return respModel, errors.Wrap(err, "Error en validación de moneda")
 	}
 
-	beerCurrencyValue, err := b.currencyRepo.GetUsdValue(strings.ToUpper(beer.Currency))
+	recordCurrency, err := b.currencyRepo.GetUsdValue(strings.ToUpper(beer.Currency))
 	if err != nil {
 		return respModel, errors.Wrap(err, "Error en validación de moneda")
 	}
 
 	totalQuantity := beer.Price * float32(beerQuantity)
-	requiredQuantity := totalQuantity / beerCurrencyValue.Value
-	requestValue := requiredQuantity * recordCurrency.Value
+	requiredQuantity := totalQuantity / recordCurrency.Value
+	requestValue := requiredQuantity * requestCurrency.Value
 
 	respModel = dto.RsCalculatedBoxPrice{TotalPrice: requestValue}
 
