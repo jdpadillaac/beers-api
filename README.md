@@ -25,4 +25,7 @@ En este README encontrará los pasos para ejecutar la aplicación
 - para conectarse a la base de datos local debe usar como valor en la variable `MONGO_CNN` la siguiente cadena `mongodb://user:password@mongoapp:27017/beers_db?authSource=admin` y remplazar user y password por los valores ingresados en su archivo .env
 
 
-- User la acces key del api de currencylayer que se ha enviado en el archivo anexo, ya que esta está configurada con lo necesario para funcionar correctamente
+- User la acces key del api de currencylayer que se ha enviado en el archivo anexo, ya que esta está configurada con lo necesario para funcionar correctamente    
+
+
+- Documentación en postman: [Ingrese a este link](https://documenter.getpostman.com/view/5657325/UVR5sV8T)
