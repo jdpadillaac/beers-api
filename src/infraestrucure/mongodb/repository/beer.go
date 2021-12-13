@@ -23,6 +23,29 @@ func NewBeerRepo() repository.BeerRepository {
 	}
 }
 
+func (b beerRepo) GetAll() ([]entity.Beer, error) {
+	resultList := make([]entity.Beer, 0)
+
+	cursor, err := b.collection.Find(context.Background(), bson.M{})
+	if err != nil {
+		return nil, err
+	}
+
+	for cursor.Next(context.TODO()) {
+		var itemModel mdbmodels.Beer
+
+		decodeErr := cursor.Decode(&itemModel)
+		if decodeErr != nil {
+			return resultList, err
+		}
+
+		newItem := b.mapper.FromModel(itemModel)
+		resultList = append(resultList, newItem)
+	}
+
+	return resultList, nil
+}
+
 func (b beerRepo) FindByID(ID string) (entity.Beer, error) {
 	var model mdbmodels.Beer
 	var resultModel entity.Beer

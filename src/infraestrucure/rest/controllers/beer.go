@@ -18,6 +18,15 @@ func NewBeerCtr(useCase *usecase.Beer) *beerCtr {
 	return &beerCtr{val: validator.New(), useCase: useCase}
 }
 
+func (b beerCtr) GetAll(c echo.Context) error {
+	result, err := b.useCase.GetAll()
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, newResponse(false, err.Error(), nil))
+	}
+
+	return c.JSON(http.StatusOK, newResponse(false, requestSuccessMsg, result))
+}
+
 func (b beerCtr) GetBoxPrice(c echo.Context) error {
 	finalQuantity := 0
 

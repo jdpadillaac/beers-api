@@ -18,6 +18,8 @@ func (c handlersConfig) beer() {
 
 	g.POST("", ctr.Post)
 
+	g.GET("", ctr.GetAll)
+
 	g.GET("/:ID", ctr.GetByID)
 
 	g.GET("/:beerID/boxprice", ctr.GetBoxPrice)

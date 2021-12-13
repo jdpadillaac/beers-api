@@ -18,6 +18,15 @@ func NewBeer(repository repository.BeerRepository, currencyRepo repository.Curre
 	return &Beer{repository: repository, currencyRepo: currencyRepo}
 }
 
+func (b Beer) GetAll() ([]entity.Beer, error) {
+	result, err := b.repository.GetAll()
+	if err != nil {
+		return nil, errors.Wrap(err, "Error en consulta a la base de datos")
+	}
+
+	return result, nil
+}
+
 func (b Beer) BoxPrice(model dto.RqCalculateBoxPrice) (dto.RsCalculatedBoxPrice, error) {
 	var respModel dto.RsCalculatedBoxPrice
 	var beerQuantity int
