@@ -10,7 +10,7 @@ En este README encontrará los pasos para ejecutar la aplicación
 
 
 
-  `MONGO_CNN=string con conexion a base de datos en mongo`
+  `MONGO_CNN=string con conexión a base de datos en mongo`
 
   `BASE_URL=/api/v1`  
 
