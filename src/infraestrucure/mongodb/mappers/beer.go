@@ -21,3 +21,14 @@ func (b Beer) FromEntity(e entity.Beer) mdbmodels.Beer {
 		Currency: e.Currency,
 	}
 }
+
+func (b Beer) FromModel(e mdbmodels.Beer) entity.Beer {
+	return entity.Beer{
+		ID:       e.DomainID,
+		Name:     e.Name,
+		Brewery:  e.Brewery,
+		Country:  e.Country,
+		Price:    e.Price,
+		Currency: e.Currency,
+	}
+}

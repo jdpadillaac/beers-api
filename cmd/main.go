@@ -17,6 +17,7 @@ func main() {
 		MongoCnnString: os.Getenv("MONGO_CNN"),
 		Name:           "BEERAPP",
 		MongoDbName:    "beers-bd",
+		BaseUrl:        os.Getenv("BASE_URL"),
 	}
 	mdb.Init(&appConfig)
 	rest.Init(&appConfig)

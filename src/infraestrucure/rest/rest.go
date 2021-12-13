@@ -10,7 +10,7 @@ import (
 func Init(c *models.AppConfig) {
 	e := echo.New()
 
-	handlers.ListenAnServe(e)
+	handlers.ListenAnServe(e, c)
 	log.Println(c.Name+": aplicacion lista y ejecuntandose en puerto", c.Port)
 	e.Logger.Fatal(e.Start(":" + c.Port))
 }
