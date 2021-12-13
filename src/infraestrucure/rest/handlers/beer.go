@@ -8,7 +8,7 @@ import (
 )
 
 func (c handlersConfig) beer() {
-	endPoint := c.baseUrl + "beers"
+	endPoint := c.baseUrl + "/beers"
 
 	repo := mdbrepo.NewBeerRepo()
 	useCase := usecase.NewBeer(repo, crlayerrepo.NewClCurrencyRepo())

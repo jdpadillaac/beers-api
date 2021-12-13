@@ -7,7 +7,7 @@ import (
 )
 
 func (c handlersConfig) currency() {
-	endPoint := c.baseUrl + "currency"
+	endPoint := c.baseUrl + "/currency"
 
 	repo := crlayerrepo.NewClCurrencyRepo()
 	useCase := usecase.NewCurrency(repo)
