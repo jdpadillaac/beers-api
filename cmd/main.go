@@ -13,11 +13,11 @@ func main() {
 	setLogFile()
 	envLoad()
 	appConfig := models.AppConfig{
-		Port:           "6940",
+		BaseUrl:        os.Getenv("BASE_URL"),
+		Port:           os.Getenv("PORT"),
 		MongoCnnString: os.Getenv("MONGO_CNN"),
 		Name:           "BEERAPP",
-		MongoDbName:    "beers-bd",
-		BaseUrl:        os.Getenv("BASE_URL"),
+		MongoDbName:    os.Getenv("MONGO_INITDB_DATABASE"),
 	}
 	mdb.Init(&appConfig)
 	rest.Init(&appConfig)

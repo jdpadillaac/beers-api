@@ -1,0 +1,35 @@
+version: "3"
+
+networks:
+  beersnet:
+    driver: bridge
+
+services:
+  beersapi:
+    build: .
+    image: beersapi:1.0
+    ports:
+      - ${PORT}:${PORT}
+    networks:
+      - beersnet
+    volumes:
+      - ./assets:/rest-api/beers/assets
+    depends_on:
+      - mongobeersapp
+  mongobeersapp:
+    image: mongo
+    restart: always
+    ports:
+      - 35185:27017
+    volumes:
+      - mdbdata:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    networks:
+      - beersnet
+
+volumes:
+  mdbdata:
+    driver: local
