@@ -8,15 +8,14 @@ En este README encontrará los pasos para ejecutar la aplicación
 ## Pasos
 - Debe crear un archivo .env en la raiz del proyecto con las siguientes variables
 
-  `MONGO_CNN=string con conexion a base de datos en mongo`
- 
-  `BASE_URL=/api/v1`
+  `MONGO_CNN=string con conexion a base de datos en mongo`  
+  `BASE_URL=/api/v1`   
   `CRLAYER_URL=http://api.currencylayer.com/`  
   `CRLAYER_KEY=your api access key`  
-  `PORT=8101`  
-  `MONGO_INITDB_DATABASE=beers_db`  
-  `MONGO_INITDB_ROOT_USERNAME=user`  
-  `MONGO_INITDB_ROOT_PASSWORD=password`
+  `PORT=8101`   
+  `MONGO_INITDB_DATABASE=beers_db`    
+  `MONGO_INITDB_ROOT_USERNAME=user`    
+  `MONGO_INITDB_ROOT_PASSWORD=password`  
 
 
 - Ahora ejecute el comando en la terminal `docker-compose up -d --build`
